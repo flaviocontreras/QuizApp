@@ -88,7 +88,7 @@ describe('GET /questions/:id', () => {
       .expect(200)
       .expect((res) => {
         expect(res.body.question.text).toBe(questions[0].text);
-        expect(res.body.question.answers).toEqual(questions[0].answers);
+        expect(res.body.question.answers[0]).toInclude(questions[0].answers[0]);
       })
       .end(done);
   });

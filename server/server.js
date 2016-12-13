@@ -3,6 +3,7 @@ require('./config/config');
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const { ObjectID } = require('mongodb');
 
 var { mongoose } = require('./db/mongoose');
 var { Question } = require('./models/question');
@@ -37,6 +38,22 @@ app.get('/questions', (req, res) => {
   }, (e) => {
     res.status(400).send(e);
   });
+});
+
+app.get('/questions/:id', (req, res) => {
+  var { id } = req.params;
+  if(!ObjectID.isValid(id)) {
+    return res.status(404).send();
+  } else {
+    Question.findById(id).then((question) => {
+      if (!question) {
+        return res.status(404).send();
+      }
+      return res.send({ question });
+    }, (e) => {
+      return res.status(400).send();
+    });
+  }
 });
 
 // Makes sure to send the bundle.js even when the with multiple routes
