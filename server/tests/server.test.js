@@ -3,12 +3,11 @@ const request = require('supertest');
 
 const { app } = require('../server');
 const { Question } = require('../models/question');
+const { questions, populateQuestions } = require('./seed/seed');
 
-beforeEach((done) => {
-  Question.remove({}).then(() => done());
-});
+beforeEach(populateQuestions);
 
-describe('POST /question', () => {
+describe('POST /questions', () => {
   it('should create a new question', (done) => {
     var question = {
       text: 'What is my name?',
@@ -22,7 +21,7 @@ describe('POST /question', () => {
     };
 
     request(app)
-      .post('/question')
+      .post('/questions')
       .send(question)
       .expect(200)
       .expect((res) => {
@@ -53,7 +52,7 @@ describe('POST /question', () => {
 
   it('should not create question with invalid body data', (done) => {
     request(app)
-      .post('/question')
+      .post('/questions')
       .send({})
       .expect(400)
       .end((err, res) => {
@@ -62,9 +61,21 @@ describe('POST /question', () => {
         }
 
         Question.find().then((questions) => {
-          expect(questions.length).toBe(0);
+          expect(questions.length).toBe(1);
           done();
-        }).catch((e) => done(e));        
+        }).catch((e) => done(e));
       });
+  });
+});
+
+describe('GET /questions', () => {
+  it('should get all questions', (done) => {
+    request(app)
+      .get('/questions')
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.questions.length).toBe(1);
+      })
+      .end(done);
   });
 });

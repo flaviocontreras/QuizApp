@@ -17,7 +17,8 @@ app.use(express.static(PUBLIC_PATH));
 app.use(bodyParser.json());
 
 
-app.post('/question', (req, res) => {
+app.post('/questions', (req, res) => {
+
   var question = new Question({
     text: req.body.text,
     answers: req.body.answers
@@ -25,6 +26,14 @@ app.post('/question', (req, res) => {
 
   question.save().then((doc) => {
     res.send(doc);
+  }, (e) => {
+    res.status(400).send(e);
+  });
+});
+
+app.get('/questions', (req, res) => {
+  Question.find().then((questions) => {
+    res.send({ questions });
   }, (e) => {
     res.status(400).send(e);
   });
