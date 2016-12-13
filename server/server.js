@@ -1,6 +1,9 @@
-var express = require('express');
-var path = require('path');
+const express = require('express');
+const path = require('path');
+const bodyParser = require('body-parser');
 
+var { mongoose } = require('./db/mongoose');
+var { Question } = require('./models/question');
 // Create our app
 var app = express();
 // Busca a porta do Heroku
@@ -9,6 +12,21 @@ const PUBLIC_PATH = path.join(__dirname, '../public');
 
 
 app.use(express.static(PUBLIC_PATH));
+app.use(bodyParser.json());
+
+
+app.post('/question', (req, res) => {
+  var question = new Question({
+    text: req.body.text,
+    answers: req.body.answers
+  });
+
+  question.save().then((doc) => {
+    res.send(doc);
+  }, (e) => {
+    res.status(400).send(e);
+  });
+});
 
 // Makes sure to send the bundle.js even when the with multiple routes
 app.get('*/bundle.js', function (request, response){

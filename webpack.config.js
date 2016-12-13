@@ -26,7 +26,10 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        PORT: JSON.stringify(process.env.PORT),
+        MONGODB_URI: JSON.stringify(process.env.MONGODB_URI),
+        JWT_SECRET: JSON.stringify(process.env.JWT_SECRET),
       }
     })
   ],
