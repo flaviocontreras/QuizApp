@@ -1,5 +1,6 @@
 const expect = require('expect');
 const request = require('supertest');
+const { ObjectID } = require('mongodb');
 
 const { app } = require('../server');
 const { Question } = require('../models/question');
@@ -76,6 +77,34 @@ describe('GET /questions', () => {
       .expect((res) => {
         expect(res.body.questions.length).toBe(1);
       })
+      .end(done);
+  });
+});
+
+describe('GET /questions/:id', () => {
+  it('should return question doc', (done) => {
+    request(app)
+      .get(`/questions/${questions[0]._id.toHexString()}`)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.question.text).toBe(questions[0].text);
+        expect(res.body.question.answers).toEqual(questions[0].answers);
+      })
+      .end(done);
+  });
+
+  it('should return 404 if question not found', (done) => {
+    let id = new ObjectID();
+    request(app)
+      .get(`/questions/${id.toHexString()}`)
+      .expect(404)
+      .end(done);
+  });
+
+  it('should return 404 for non-object ids', (done) => {
+    request(app)
+      .get('/questions/123')
+      .expect(404)
       .end(done);
   });
 });
