@@ -1,3 +1,5 @@
+require('./config/config');
+
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -42,3 +44,7 @@ app.get('*', function (request, response){
 app.listen(PORT, function(){
     console.log('Express server is up on port ' + PORT);
 });
+
+module.exports = {
+  app
+};
