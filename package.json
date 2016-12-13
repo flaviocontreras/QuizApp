@@ -1,0 +1,52 @@
+{
+  "name": "react-quiz",
+  "version": "1.0.0",
+  "description": "React Quiz",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_ENV=test karma start",
+    "build": "webpack",
+    "start": "npm run build && node server.js"
+  },
+  "author": "Flavio Contreras",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.15.2",
+    "babel-core": "^6.18.2",
+    "babel-loader": "^6.2.7",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-es2016": "^6.16.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "css-loader": "^0.25.0",
+    "deep-freeze-strict": "^1.1.1",
+    "expect": "^1.20.2",
+    "express": "^4.14.0",
+    "jquery": "^3.1.1",
+    "moment": "^2.16.0",
+    "node-env-file": "^0.1.8",
+    "node-sass": "^3.13.0",
+    "node-uuid": "^1.4.7",
+    "react": "^15.3.2",
+    "react-addons-test-utils": "^15.4.0",
+    "react-dom": "^15.3.2",
+    "react-redux": "^4.4.6",
+    "react-router": "^3.0.0",
+    "redux": "^3.6.0",
+    "redux-mock-store": "^1.2.1",
+    "redux-thunk": "^2.1.0",
+    "sass-loader": "^4.0.2",
+    "script-loader": "^0.7.0",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.3"
+  },
+  "devDependencies": {
+    "karma": "^1.3.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-mocha": "^1.3.0",
+    "karma-mocha-reporter": "^2.2.0",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^1.8.0",
+    "mocha": "^3.1.2"
+  }
+}
