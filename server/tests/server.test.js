@@ -146,3 +146,33 @@ describe('DELETE /questions/:id', () => {
       .end(done);
   });
 });
+
+describe('PATCH /questions/:id', () => {
+  it('should update the question', (done) => {
+    let id = questions[0]._id.toHexString();
+    let text = 'New question test';
+    let newAnswer = {
+      text: 'New answer'
+    };
+    let answers = [
+      ...questions[0].answers,
+      newAnswer
+    ];
+
+    request(app)
+      .patch(`/questions/${id}`)
+      .send({
+        text,
+        answers
+      })
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.question.text).toBe(text);
+        expect(res.body.question.answers.length).toBe(3);
+        expect(res.body.question.answers[2]).toInclude(newAnswer);
+      })
+      .end(done);
+  });
+
+
+});
