@@ -108,3 +108,41 @@ describe('GET /questions/:id', () => {
       .end(done);
   });
 });
+
+describe('DELETE /questions/:id', () => {
+  it('should remove a question', (done) => {
+    let id = questions[0]._id.toHexString();
+
+    request(app)
+      .delete(`/questions/${id}`)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.question._id).toBe(id);
+      })
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+
+        Question.findById(id).then((question) => {
+          expect(question).toNotExist();
+          done();
+        }).catch((e) => done(e));
+      });
+  });
+
+  it('should return 404 if question not found', (done) => {
+    let id = new ObjectID();
+    request(app)
+      .delete(`/questions/${id.toHexString()}`)
+      .expect(404)
+      .end(done);
+  });
+
+  it('should return 404 if object id is invalid', (done) => {
+    request(app)
+      .delete('questions/123')
+      .expect(404)
+      .end(done);
+  });
+});
