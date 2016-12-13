@@ -141,7 +141,7 @@ describe('DELETE /questions/:id', () => {
 
   it('should return 404 if object id is invalid', (done) => {
     request(app)
-      .delete('questions/123')
+      .delete('/questions/123')
       .expect(404)
       .end(done);
   });

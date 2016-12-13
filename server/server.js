@@ -56,6 +56,24 @@ app.get('/questions/:id', (req, res) => {
   }
 });
 
+app.delete('/questions/:id', (req, res) => {
+  var { id } = req.params;
+  if (!ObjectID.isValid(id)) {
+    return res.status(404).send();
+  } else {
+    Question.findOneAndRemove({
+      _id: id
+    }).then((question) => {
+      if (!question) {
+        return res.status(404).send();
+      }
+      return res.send({ question });
+    }, (e) => {
+      return res.status(404).send();
+    });
+  }
+});
+
 // Makes sure to send the bundle.js even when the with multiple routes
 app.get('*/bundle.js', function (request, response){
   response.sendFile(path.resolve(PUBLIC_PATH, 'bundle.js'))
